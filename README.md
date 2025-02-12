@@ -71,7 +71,7 @@ pip install -r requirements.txt
 1. Start the server:
 
 ```bash
-uvicorn main:app
+uvicorn main:app --host 0.0.0.0 --port 8000
 ```
 
 2. Access the API documentation:
@@ -137,6 +137,14 @@ The API includes proper error handling for:
 4. Push to branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
+## CI/CD Pipeline
+
+Our CI/CD pipeline is configured for automated testing and deployment. Every commit triggers:
+
+1. **Linting & Testing**: Ensures code quality and correctness.
+2. **Deployment to Railway**: Automatically deploys the latest version.
+3. **Health Check Validation**: Confirms the application is running.
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
@@ -145,6 +153,3 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 For support, please open an issue in the GitHub repository.
 
-## CI/CD Pipeline Test
-
-Testing CI/CD Pipeline test completed
