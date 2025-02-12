@@ -8,7 +8,7 @@ WORKDIR /app
 COPY . .
 
 # Install dependencies
-RUN pip install -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
 # Install Nginx and Supervisor
 RUN apt update && apt install -y nginx supervisor
