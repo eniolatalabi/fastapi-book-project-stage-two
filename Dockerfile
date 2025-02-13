@@ -7,11 +7,13 @@ WORKDIR /app
 # Copy the current directory contents into the container
 COPY . .
 
-# Update package list and install dependencies
-RUN apt update && apt install -y python3 python3-pip nginx supervisor && \
+# Update package list and install system dependencies
+RUN apt update && apt install -y python3 python3-pip nginx supervisor \
+    build-essential libssl-dev libffi-dev python3-dev && \
     apt clean && rm -rf /var/lib/apt/lists/*
 
-# Install project dependencies (FIXED MISSING STEP)
+# Install project dependencies
+RUN pip3 install --upgrade pip
 RUN pip3 install --no-cache-dir -r requirements.txt
 
 # Create necessary directories
