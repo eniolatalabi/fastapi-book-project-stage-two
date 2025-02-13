@@ -1,5 +1,6 @@
 # Use an official Python runtime as a parent image
-FROM python:3.10
+FROM debian:latest
+
 
 # Set the working directory in the container
 WORKDIR /app
@@ -11,7 +12,7 @@ COPY . .
 RUN pip install -r requirements.txt
 
 # Install Nginx and Supervisor
-RUN apt update && apt install -y nginx supervisor
+RUN apt update && apt install -y python3 python3-pip nginx supervisor
 
 # Copy Nginx and Supervisor configuration
 COPY nginx.conf /etc/nginx/nginx.conf
