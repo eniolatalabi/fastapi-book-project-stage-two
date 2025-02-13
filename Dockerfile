@@ -10,7 +10,7 @@ COPY . .
 # Install dependencies
 RUN pip install -r requirements.txt
 
-# Install Nginx and Supervisor properly
+# Install Nginx and Supervisor
 RUN apt update && apt install -y nginx supervisor
 
 # Copy Nginx and Supervisor configuration
@@ -20,5 +20,5 @@ COPY supervisor.conf /etc/supervisor/conf.d/supervisor.conf
 # Expose port 80 for Nginx
 EXPOSE 80
 
-# Ensure Nginx and FastAPI start correctly
-CMD ["supervisord", "-n", "-c", "/etc/supervisor/conf.d/supervisor.conf"]
+# Start Supervisor (which starts Nginx & FastAPI)
+CMD ["supervisord", "-c", "/etc/supervisor/conf.d/supervisor.conf"]
