@@ -19,12 +19,15 @@ ENV PATH="/app/venv/bin:$PATH"
 # Install project dependencies inside the virtual environment
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Ensure correct permissions
-RUN chmod 644 /etc/supervisor/conf.d/supervisor.conf
+# Create necessary directories before copying config files
+RUN mkdir -p /var/log/supervisor /etc/supervisor/conf.d
 
 # Copy Supervisor and Nginx Configurations
 COPY supervisor.conf /etc/supervisor/conf.d/supervisor.conf
 COPY nginx.conf /etc/nginx/nginx.conf
+
+# Ensure correct permissions AFTER copying files
+RUN chmod 644 /etc/supervisor/conf.d/supervisor.conf
 
 # Expose required ports
 EXPOSE 80 8000
