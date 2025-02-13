@@ -1,32 +1,27 @@
-# Use a Debian-based Python image with necessary dependencies
-FROM python:3.10-slim
+# Use a stable Debian base
+FROM debian:latest
 
-# Set non-interactive mode for APT to avoid prompts
-ENV DEBIAN_FRONTEND=noninteractive
-
-# Set the working directory inside the container
+# Set working directory
 WORKDIR /app
 
-# Install system dependencies
-RUN apt update && apt install -y \
-    nginx \
-    supervisor \
-    python3-venv \
-    && apt clean && rm -rf /var/lib/apt/lists/*
+# Copy the current directory contents into the container
+COPY . .
 
-# Upgrade pip and install project dependencies
-RUN pip install --upgrade pip \
-    && pip install --no-cache-dir -r requirements.txt
+# Install dependencies
+RUN apt update && apt install -y python3 python3-pip nginx supervisor
 
-# Copy application source code
-COPY --chown=root:root . /app
+# Ensure Nginx and Supervisor start correctly
+RUN mkdir -p /var/log/supervisor
 
-# Copy and configure Nginx & Supervisor
+# Copy configurations
 COPY nginx.conf /etc/nginx/nginx.conf
 COPY supervisor.conf /etc/supervisor/conf.d/supervisor.conf
+
+# Ensure permissions
+RUN chmod 644 /etc/supervisor/conf.d/supervisor.conf
 
 # Expose ports
 EXPOSE 80
 
 # Start Supervisor (which starts Nginx & FastAPI)
-CMD ["supervisord", "-c", "/etc/supervisor/conf.d/supervisor.conf"]
+CMD ["supervisord", "-n", "-c", "/etc/supervisor/conf.d/supervisor.conf"]
