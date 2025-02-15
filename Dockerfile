@@ -41,3 +41,7 @@ COPY nginx.conf /etc/nginx/nginx.conf
 EXPOSE 80 8000
 
 CMD ["/usr/bin/supervisord", "-n"]
+
+RUN mkdir -p /var/run/nginx && \
+    chown nginx_user:nginx_user /var/run/nginx && \
+    chmod 755 /var/run/nginx
