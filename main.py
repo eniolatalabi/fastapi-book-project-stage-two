@@ -3,11 +3,9 @@ import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from api.router import api_router
-from core.config import settings
-
 app = FastAPI()
 
+# Enable CORS for all origins (modify as needed)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -16,7 +14,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(api_router, prefix=settings.API_PREFIX)
+@app.get("/")
+def read_root():
+    return {"message": "FastAPI is running!"}
 
 @app.get("/healthcheck")
 async def health_check():
