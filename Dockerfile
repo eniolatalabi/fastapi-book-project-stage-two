@@ -14,9 +14,10 @@ WORKDIR /app
 # Install dependencies
 RUN apt update && apt install -y --no-install-recommends \
     python3 python3-pip python3-venv \
-    nginx supervisor \
+    nginx supervisor gettext \
     libcap2-bin curl && \
-    apt clean && rm -rf /var/lib/apt/lists/*
+    apt clean && \
+    rm -rf /var/lib/apt/lists/*
 
 # Set Nginx capabilities (allow binding to port <1024)
 RUN setcap 'cap_net_bind_service=+ep' /usr/sbin/nginx
